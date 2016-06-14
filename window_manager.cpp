@@ -26,5 +26,29 @@ WindowManager::~WindowManager()
 
 void WindowManager::Run()
 {
-  // later
+  // Select events on root window.  Use a special error handler
+  // so we can exit gracefully if another wm is running
+  std::lock_guard <std::mutex> lock(wm_detected_mutex_);
+
+  wm_detected_ = false;
+  XSetErrorHandler(&WindowManager::OnWMDetected);
+  XSelectInput(display_, root_, SubstructureRedirectMask | SubstructureNotifyMask);
+  XSync(display_, false);
+  if(wm_detected_)
+  {
+    LOG(ERROR) << "Another window manager is running on display "
+               << XDisplayString(display_);
+    return;
+  }
+  XSetErrorHandler(&WindowManager::OnXError);
+}
+
+int WindowManager::OnWMDetected(Display* display, XErrorEvent* e)
+{
+  // in the case of another wm, the error code from XSelectInput
+  // is BadAccess.  We don't expect this handler to receive any other 
+  // errors.
+  CHECK_EQ(static_cast<int>(e->error_code), BadAccess);
+  wm_detected_ = true;
+  return 0;
 }
