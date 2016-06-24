@@ -1,6 +1,9 @@
 #include "window_manager.hpp"
 #include <glog/logging.h>
 
+bool WindowManager::wm_detected_;
+std::mutex WindowManager::wm_detected_mutex_;
+
 std::unique_ptr<WindowManager> WindowManager::Create()
 {
   Display* display = XOpenDisplay(nullptr);
@@ -41,6 +44,11 @@ void WindowManager::Run()
     return;
   }
   XSetErrorHandler(&WindowManager::OnXError);
+}
+
+int WindowManager::OnXError(Display* display, XErrorEvent* e)
+{
+  //Todo
 }
 
 int WindowManager::OnWMDetected(Display* display, XErrorEvent* e)

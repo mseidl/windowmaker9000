@@ -20,6 +20,13 @@ class WindowManager
     // Entry point to class
     void Run();
 
+  private:
+    // Invoked by Create()
+    WindowManager(Display* display);
+
+   // Underlying display struct
+    Display* display_;
+    
     // Xlib error handler
     static int OnXError(Display* display, XErrorEvent* e);
 
@@ -34,15 +41,7 @@ class WindowManager
 
     // Mutex for protecting wm_detected_
     static std::mutex wm_detected_mutex_;
-   
  
-  private:
-    // Invoked by Create()
-    WindowManager(Display* display);
-
-   // Underlying display struct
-    Display* display_;
-
     // Handles root window
     const Window root_;
 };
