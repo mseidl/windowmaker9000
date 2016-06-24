@@ -44,6 +44,27 @@ void WindowManager::Run()
     return;
   }
   XSetErrorHandler(&WindowManager::OnXError);
+  
+  // 2. Main event loop
+  for (;;)
+  {
+    // Get next event
+    XEvent xev;
+    XNextEvent(display_, &xev); 
+    LOG(INFO) << "Received event: " << ToString(xev);
+
+    switch (xev.type)
+    {
+      case CreateNotify:
+        OnCreateateNotify(xev.xcreatewindow);
+        break;
+      case OnDestroyNotify:
+        OnDestroyNotify(xev.xdestroywindow);
+        break;
+      default:
+        LOG(WARNING) << "Unhandled event";
+    }
+  }
 }
 
 int WindowManager::OnXError(Display* display, XErrorEvent* e)
