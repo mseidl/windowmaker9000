@@ -2,7 +2,7 @@
 #define UTIL_HPP
 
 extern "C" {
-#include  X11/Xlib.h
+#include  <X11/Xlib.h>
 }
 #include <string>
 #include <sstream>
@@ -27,7 +27,28 @@ std::ostream& operator<< (std::ostream& out, const Size<T>& size)
 }
 
 template<typename T>
-Size<T> operator- (const 
+Vector2D<T> operator- (const Position<T>& lhs, const Position<T>& rhs)
+{
+  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template<typename T>
+Position<T> operator- (const Vector2D<T>& lhs, const Position<T>& rhs)
+{
+  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template<typename T>
+Position<T> operator+ (const Position<T>& lhs, const Vector2D<T>& rhs)
+{
+  return Position<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template<typename T>
+Position<T> operator+ (const Vector2D<T>& lhs, const Position<T>& rhs)
+{
+  return Position<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
 
 template<typename T>
 std::string Size<T>::ToString() const
