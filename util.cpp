@@ -111,4 +111,49 @@ std::string ToString(const XEvent& xev)
     default:
       break;
   }
+
+  // Build final string
+  const std::string properties_string = Join(properties, ", ",
+                                         [] (const std::pair<std::string, std::string> &pair)
+                                         {
+                                           return pair.first + ": " + pair.second;
+                                         });
+  std::ostringstream out;
+  out << X_EVENT_TYPE_NAMES[xev.type] << " { " << properties_string << " }";
+  return out.str();
+}
+
+std::string XConfigureWindowValueMaskToString(unsigned long value_mask)
+{
+  std::vector<std::string> masks;
+  if (value_mask & CWX)
+  {
+    masks.emplace_back("X");
+  }
+  if (value_mask & CWY)
+  {
+    masks.emplace_back("Y");
+  }
+  if (value_mask & CWWidth)
+  {
+    masks.emplace_back("Width");
+  }
+  if (value_mask & CWHeight)
+  {
+    masks.emplace_back("Height");
+  }
+  if (value_mask & CWBorderWidth)
+  {
+    masks.emplace_back("BorderWidth");
+  }
+  if (value_mask & CWSibling)
+  {
+    masks.emplace_back("Sibling");
+  }
+  if (value_mask & CWStackMode)
+  {
+    masks.emplace_back("StackMode");
+  }
+
+  return Join(masks, "|");
 }

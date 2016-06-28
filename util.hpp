@@ -9,6 +9,8 @@ extern "C"
 #include <string>
 #include <sstream>
 #include <ostream>
+#include <vector>
+#include <algorithm>
 
 template<typename T>
 struct Size
@@ -149,6 +151,30 @@ std::string ToString(const T& x)
   std::ostringstream out;
   out << x;
   return out.str();
+}
+
+template<typename Container>
+std::string Join(const Container& cont, const std::string delim)
+{
+  std::ostringstream out;
+  for (auto i = cont.cbegin(); i != cont.cend(); ++i)
+  {
+    if (i != cont.cbegin())
+    {
+      out << delim;
+    }
+    out << *i;
+  }
+
+  return out.str();
+}
+
+template<typename Container, typename Converter>
+std::string Join(const Container& cont, const std::string& delim, Converter conv)
+{
+  std::vector<std::string> converted_container(cont.size());
+  std::transform(cont.cbegin(), cont.cend(), converted_container.begin(), conv);
+  return Join(converted_container, delim);
 }
 
 #endif // UTIL_HPP
