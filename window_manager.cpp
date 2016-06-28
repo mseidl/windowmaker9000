@@ -1,4 +1,9 @@
+extern "C"
+{
+#include <X11/Xutil.h>
+}
 #include "window_manager.hpp"
+#include "util.hpp"
 #include <glog/logging.h>
 
 bool WindowManager::wm_detected_;
@@ -55,12 +60,12 @@ void WindowManager::Run()
 
     switch (xev.type)
     {
-      case CreateNotify:
-        OnCreateateNotify(xev.xcreatewindow);
-        break;
-      case OnDestroyNotify:
-        OnDestroyNotify(xev.xdestroywindow);
-        break;
+      //case CreateNotify:
+      //  onCreateNotify(xev.xcreatewindow);
+      //  break;
+      //case DestroyNotify:
+      //  onDestroyNotify(xev.xdestroywindow);
+      //  break;
       default:
         LOG(WARNING) << "Unhandled event";
     }

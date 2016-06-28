@@ -46,12 +46,6 @@ struct Position
 };
 
 template <typename T>
-std::ostream& operator<< (std::ostream& out, Position<T>& pos)
-{
-  return out << pos.ToString();
-}
-
-template <typename T>
 std::string Position<T>::ToString() const
 {
   std::ostringstream out;
@@ -89,6 +83,12 @@ template<typename T>
 std::ostream& operator<< (std::ostream& out, const Size<T>& size)
 {
   return out << size.ToString();
+}
+
+template <typename T>
+std::ostream& operator<< (std::ostream& out, Position<T>& pos)
+{
+  return out << pos.ToString();
 }
 
 template<typename T>
