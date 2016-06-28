@@ -137,4 +137,18 @@ Size<T> operator- (const Size<T>& lhs, const Vector2D<T>& rhs)
   return Size<T>(lhs.width - rhs.x, lhs.height - rhs.y);
 }
 
+extern std::string ToString(const XEvent* xev);
+
+extern std::string XConfigureWindowValueMaskToString(unsigned long value_mask);
+
+extern std::string XRequestCodeToString(unsigned char request_code);
+
+template<typename T>
+std::string ToString(const T& x)
+{
+  std::ostringstream out;
+  out << x;
+  return out.str();
+}
+
 #endif // UTIL_HPP
