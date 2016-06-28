@@ -1,9 +1,11 @@
 #ifndef UTIL_HPP
 #define UTIL_HPP
 
-extern "C" {
-#include  <X11/Xlib.h>
+extern "C" 
+{
+  #include  <X11/Xlib.h>
 }
+
 #include <string>
 #include <sstream>
 #include <ostream>
@@ -20,35 +22,6 @@ struct Size
   std::string ToString() const;
 };
 
-template<typename T>
-std::ostream& operator<< (std::ostream& out, const Size<T>& size)
-{
-  return out << size.ToString();
-}
-
-template<typename T>
-Vector2D<T> operator- (const Position<T>& lhs, const Position<T>& rhs)
-{
-  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
-}
-
-template<typename T>
-Position<T> operator- (const Vector2D<T>& lhs, const Position<T>& rhs)
-{
-  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
-}
-
-template<typename T>
-Position<T> operator+ (const Position<T>& lhs, const Vector2D<T>& rhs)
-{
-  return Position<T>(lhs.x - rhs.x, lhs.y - rhs.y);
-}
-
-template<typename T>
-Position<T> operator+ (const Vector2D<T>& lhs, const Position<T>& rhs)
-{
-  return Position<T>(lhs.x - rhs.x, lhs.y - rhs.y);
-}
 
 template<typename T>
 std::string Size<T>::ToString() const
@@ -96,18 +69,72 @@ struct Vector2D
   std::string ToString() const;
 };
 
-template<typename T>
-std::ostream& operator<< (std::ostream& out, Vector2D<T>& vec)
-{
-  return out << vec.ToString();
-}
-
 template <typename T>
 std::string Vector2D<T>::ToString() const
 {
   std::ostringstream out;
   out << '(' << x << ", " << y << ')';
   return out.str();
+}
+
+template<typename T>
+std::ostream& operator<< (std::ostream& out, Vector2D<T>& vec)
+{
+  return out << vec.ToString();
+}
+
+template<typename T>
+std::ostream& operator<< (std::ostream& out, const Size<T>& size)
+{
+  return out << size.ToString();
+}
+
+template<typename T>
+Vector2D<T> operator- (const Position<T>& lhs, const Position<T>& rhs)
+{
+  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template<typename T>
+Position<T> operator- (const Vector2D<T>& lhs, const Position<T>& rhs)
+{
+  return Vector2D<T>(lhs.x - rhs.x, lhs.y - rhs.y);
+}
+
+template<typename T>
+Position<T> operator+ (const Position<T>& lhs, const Vector2D<T>& rhs)
+{
+  return Position<T>(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
+template<typename T>
+Position<T> operator+ (const Vector2D<T>& lhs, const Position<T>& rhs)
+{
+  return Position<T>(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
+template<typename T>
+Vector2D<T> operator- (const Size<T>& lhs, const Size<T>& rhs)
+{
+  return Vector2D<T>(lhs.width - rhs.width, lhs.height - rhs.height);
+}
+
+template<typename T>
+Size<T> operator+ (const Size<T>& lhs, const Vector2D<T>& rhs)
+{
+  return Size<T>(lhs.width + rhs.x, lhs.height + rhs.y);
+}
+
+template<typename T>
+Size<T> operator+ (const Vector2D<T>& lhs, const Size<T>& rhs)
+{
+  return Size<T>(lhs.x + rhs.width, lhs.y + rhs.height);
+}
+
+template<typename T>
+Size<T> operator- (const Size<T>& lhs, const Vector2D<T>& rhs)
+{
+  return Size<T>(lhs.width - rhs.x, lhs.height - rhs.y);
 }
 
 #endif // UTIL_HPP
