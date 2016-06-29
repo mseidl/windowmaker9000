@@ -32,6 +32,35 @@ WindowManager::~WindowManager()
   XCloseDisplay(display_);
 }
 
+void WindowManager::OnCreateNotify(const XCreateWindowEvent& e) { }
+
+void WindowManager::OnDestroyNotify(const XDestroyWindowEvent& e) { }
+
+void WindowManager::OnReparentNotify(const XReparentEvent& e) { }
+
+void WindowManager::OnMapNotify(const XMapEvent& e) { }
+
+void WindowManager::OnUnmapNotify(const XUnmapEvent& e)
+{ 
+
+}
+
+void WindowManager::OnConfigureNotify(const XConfigureEvent& e) { }
+
+void WindowManager::OnMapRequest(const XMapRequestEvent& e) { }
+
+void WindowManager::OnConfigureRequest(const XConfigureRequestEvent& e) { }
+
+void WindowManager::OnButtonPress(const XButtonEvent& e) { }
+
+void WindowManager::OnButtonRelease(const XButtonEvent& e) { }
+
+void WindowManager::OnMotionNotify(const XMotionEvent& e) { }
+
+void WindowManager::OnKeyPress(const XKeyEvent& e) { }
+
+void WindowManager::OnKeyRelease(const XKeyEvent& e) { }
+
 void WindowManager::Run()
 {
   // Select events on root window.  Use a special error handler
@@ -60,12 +89,12 @@ void WindowManager::Run()
 
     switch (xev.type)
     {
-      //case CreateNotify:
-      //  onCreateNotify(xev.xcreatewindow);
-      //  break;
-      //case DestroyNotify:
-      //  onDestroyNotify(xev.xdestroywindow);
-      //  break;
+      case CreateNotify:
+        OnCreateNotify(xev.xcreatewindow);
+        break;
+      case DestroyNotify:
+        OnDestroyNotify(xev.xdestroywindow);
+        break;
       default:
         LOG(WARNING) << "Unhandled event";
     }

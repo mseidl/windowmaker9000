@@ -20,12 +20,34 @@ class WindowManager
     // Entry point to class
     void Run();
 
-  private:
+ private:
     // Invoked by Create()
     WindowManager(Display* display);
 
    // Underlying display struct
     Display* display_;
+
+    // fames a top level window
+    void Frame(Window win);
+
+    // Unframes a client window
+    void Unframe(Window win);
+
+    // event handlers
+    void OnCreateNotify(const XCreateWindowEvent& e);
+    void OnDestroyNofity(const XDestroyWindowEvent& e);
+    void OnReparentNotify(const XReparentEvent& e);
+    void OnMapNotify(const XMapEvent& e);
+    void OnUnmapNotify(const XUnmapEvent& e);
+    void OnConfigureNotify(const XConfigureEvent& e);
+    void OnMapRequest(const XMapRequestEvent& e);
+    void OnConfigureRequest(const XConfigureRequestEvent& e);
+    void OnButtonPress(const XButtonEvent& e);
+    void OnButtonRelease(const XButtonEvent& e);
+    void OnMotionNotify(const XMotionEvent& e);
+    void OnKeyPress(const XKeyEvent& e);
+    void OnKeyRelease(const XKeyEvent& e);
+
     
     // Xlib error handler
     static int OnXError(Display* display, XErrorEvent* e);
